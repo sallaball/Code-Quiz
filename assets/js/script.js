@@ -1,80 +1,83 @@
-//variables
 
-var scores = document.querySelector("#scores");
-var timer = document.querySelector("#timer");
-var intro = document.querySelector("#header-intro");
-var title = document.querySelector("#title");
-var content = document.querySelector("#content");
-var start = document.querySelector("#start-button");
-var questions = document.querySelector("#questions");
+let scores = document.querySelector("#scores");
+let timer = document.querySelector("#timer");
+let container = document.querySelector("#container");
+let title = document.querySelector("#title");
+let content = document.querySelector("#content");
+let start = document.querySelector("#start");
+let answer = document.querySelector("#answer");
 
-class Questions {
-    constructor(queston, options, answser) {
+
+class Question {
+    constructor(question, options, answer) {
         this.question = question;
         this.options = options;
         this.answer = answer;
     }
 }
-//questions and answers
-var questonsList = [];
 
-var options1 = ["1. Debugging", "2. Error Checking", "3. Reficing", "4. Problem solving"];
-var question1 = new Questions("Resolving errors in a program is known as:", options1, "1. Debugging");
-
-var options2 = ["1. Low Level Languages", "2. High Level Languages", "3. Machine Code", "4. Algorithms"];
-var question2 = new Questions("What is the only thing that computers understand?", options2, "3. Machine Code");
-
-var options3 = ["1. Translated into a high level language", "2. converted into binary", "3. Translated into a low level language", "4. Translated into its machine code"];
-var question2 = new Questions("Before a computer can understand a program, it must be...", options3, "4. Translated into its machine code");
-
-var options4 = ["1. Assembly", "2. C++", "3. JavaScript", "4. Python"];
-var questions4 = new Questions("Which of the following is not a high level programming language?", options4, "1. Assembly");
-
-var options5 = ["1. True", "2. False"];
-var questions5 = new Questions("Machine code uses the binary nubmer system", options5, "1. True");
+let questionList = [];
 
 
-var optionList = [];
-var currentQues = 0;
-var score = 0;
-var timeLeft = 61;
-var isQuizOngoing = false;
-var leaderboard = [];
-var initials = "";
-var isClearingAnswer = false;
-var cleaingAnswerCode = 0;
-var isCorrect = false;
+const options1 = ["1. Debugging", "2. Error Checking", "3. Refixing", "4. Problem solving"];
+const question1 = new Question("Resolving errors in a program is known as:", options1, "1. Debugging");
+questionList.push(question1);
+
+const options2 = ["1. Low Level Languages", "2. High Level Languages", "3. Machine Code", "4. Algorithms"];
+const question2 = new Question("What is the only thing that computers understand?", options2, "3. Machine Code");
+questionList.push(question2);
+
+const options3 = ["1. Translated into a high level language", "2. converted into binary", "3. Translated into a low level language", "4. Translated into its machine code"];
+const question3 = new Question("Before a computer can understand a program, it must be...", options3, "4. Translated into its machine code");
+questionList.push(question3);
+
+const options4 = ["1. Assembly", "2. C++", "3. JavaScript", "4. Python"];
+const question4 = new Question("Which of the following is not a high level programming language?", options4, "1. Assembly");
+questionList.push(question4);
+
+const options5 = ["1. string", "2. number", "3. boolean", "4. all of the above"];
+const question5 = new Question("What data types can a function return?", options5, "4. all of the above");
+questionList.push(question5);
+
+
+let optionList = [];
+let currentQues = 0;
+let score = 0;
+let timeLeft = 100;
+let isQuizOngoing = false;
+let leaderboard = [];
+let initials = "";
+let isClearingAnswer = false;
+let clearingAnswerCode = 0;
+let isCorrect = false;
+
 
 function init() {
     start.addEventListener("click", questionLoop);
     scores.addEventListener("click", showScores);
-
 }
 
 
-// makes elements invisible
-
-function questionLoop() {
+function questionLoop () {
     runTimer();
     isQuizOngoing = true;
     start.setAttribute("style", "display: none");
     content.setAttribute("style", "display: none");
-    var numOfOptions = questionList[0].options.length;
-    for(var i = 0; i < numOfOptions; i++) {
-        var option = document.createElement("button");
+    let numOfOptions = questionList[0].options.length;
+    for(let i = 0; i < numOfOptions; i++) {
+        let option = document.createElement("button");
         container.appendChild(option);
         optionList.push(option);
-        option.setAttribute("id", `buton${i + 1}`);
+        option.setAttribute("id", `button${i + 1}`);
     }
     nextQuestion();
 }
 
-//timer
 
 function runTimer () {
-    var clock = setInterval(function() {
+    let clock = setInterval(function() {
         timeLeft--;
-        timer.textContent = `time: ${timeLeft} seconds`;
+        timer.textContent = `Time: ${timeLeft} seconds`;
         if(timeLeft === 0) {
             clearInterval(clock);
             if(title.textContent !== "All Done.") {
@@ -84,14 +87,17 @@ function runTimer () {
     }, 1000)
 }
 
+
 function nextQuestion(event) {
     writeAnswer(event);
     if(currentQues < questionList.length) {
-    changeQuestion();
-} else {
-    endOfQuiz();
+        changeQuestion();
+    } else {
+        endOfQuiz();
+    }
 }
-}
+
+
 
 function writeAnswer(event) {
     if(event !== undefined) {
@@ -118,6 +124,7 @@ function writeAnswer(event) {
     }
 }
 
+
 function clearAnswer() {
     if(isClearingAnswer) {
         isClearingAnswer = false;
@@ -132,6 +139,7 @@ function clearAnswer() {
     }
 }
 
+
 function changeQuestion() {
     title.textContent = questionList[currentQues].question;
     for(let i = 0; i < questionList[currentQues].options.length; i++) {
@@ -140,6 +148,7 @@ function changeQuestion() {
     }
     currentQues++;
 }
+
 
 function endOfQuiz() {
     title.textContent = "All Done.";
@@ -151,12 +160,14 @@ function endOfQuiz() {
     inputFields();
 }
 
+
 function clearOptions() {
     for(let i = 0; i < optionList.length; i++) {
         optionList[i].remove();
     }
     optionList = [];
 }
+
 
 function inputFields() {
     let initialsForm = document.createElement("form");
@@ -182,11 +193,13 @@ function inputFields() {
     
 }
 
+
 function stopReload(event) {
     if(event.key === "Enter") {
         event.preventDefault();
     }
 }
+
 
 function addScore(event) {
     if(event !== undefined) {
@@ -202,6 +215,7 @@ function addScore(event) {
     saveScore(id);
 }
 
+
 function saveScore(id) {
     if(localStorage.getItem("leaderboard") !== null) {
         leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
@@ -211,6 +225,7 @@ function saveScore(id) {
     showScores();    
 }
 
+
 function invalidInput() {
     answer.textContent = "Initials must be entered and three characters or less";
     answer.setAttribute("style", "color: black");
@@ -219,10 +234,11 @@ function invalidInput() {
     submit.addEventListener("click", addScore);
 }
 
+
 function showScores() {
     if(!isQuizOngoing) {
         title.textContent = "High Scores";
-        // Hides start quiz button if view high scores is clicked at beginning
+        
         start.setAttribute("style", "display: none");
         writeScores();
         createEndButtons();
@@ -236,6 +252,7 @@ function showScores() {
         clearAnswer();
     }
 }
+
 
 function writeScores() {
     content.textContent = "";
@@ -254,6 +271,7 @@ function writeScores() {
     }
 }
 
+
 function createEndButtons() {
     if(!document.getElementById("restart")) {
         let restartVar = document.createElement("button");
@@ -271,6 +289,7 @@ function createEndButtons() {
     }
 }
 
+
 function restart() {
     title.setAttribute("style", "align-self: center");
     content.setAttribute("style", "align-self: center; font-size: 110%");
@@ -285,11 +304,12 @@ function restart() {
     init();
 }
 
+
 function clearScores() {
     localStorage.clear();
     content.textContent = "";
     leaderboard = [];
 }
 
-init();
+init()
 

@@ -1,92 +1,110 @@
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
-    border: 1px solid red;
-}
-
-body {
-    background-color: lightgrey;
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    font: inherit;
     font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
-}
-
-
-.outer-div {
-    padding: 10px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-}
-
-.score-timer {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px;
-    font-size: 20px;
 }
 
 .scores {
-    background-color: lightgray;
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 3px;
+}
+
+
+.header {
+    margin: 20px 5%;
+    font-size: 125%;
+    padding: 10px;
     color: blueviolet;
-    font-size: 18;
+    display: flex;
+    justify-content: space-between;
 }
 
-.scores:hover {
-    font-size: 20px;
+#timer {
+    color: black;
 }
 
-.inner-div {
-    text-align: center;
-    height: 100%;
-    width: 50%;
-    margin: 0 auto;
+#container {
+    margin: 50px 10% 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-
 }
 
-.header-intro, main {
-    margin-bottom: 30vh;
-    margin-left: 10%;
-    margin-right: 10%;
+#container > * {
+    margin: 20px 5%;
+    align-self: center;
 }
 
-.header-intro button {
-    display: block;
-    margin: 0 auto;
-    font-size: 20px;
-    margin: 15px auto;
+#title {
+    font-size: 175%;
 }
 
-.start-button:hover {
-    font-size: 23px;
+#content {
+    font-size: 110%;
+    text-align: justify;
 }
 
-.header h1 {
-    display: flex;
-    text-align: auto;
-    
-}
-
-
-.score-screen ol {
-    overflow-y: scroll;
-    max-height: 200px;
-}
-
-.score-screen button {
-    border-radius: 5px;
-    font-size: 18px;
-    background-color: blueviolet;
-    margin: 5px 30px;
+button {
+    background-color: purple;
     color: white;
+    border: solid black 3px;
+    border-radius: 20px;
+    padding: 10px 40px;
+    font-size: 125%;
+    font-weight: bolder;
 }
-.score-screen button:hover {
-    font-size: 20px;
-    background-color: white;
-    color: black;
+
+#button1, #button2, #button3, #button4, #restart, #clearScores {
+    align-self: start;
 
 }
+
+#form {
+    font-size: 150%;
+}
+
+#submit {
+    font-size: 100%;
+    margin: 20px;
+}
+
+footer {
+    text-align: center;
+    font-size: 150%;
+}
+
+button:hover {
+    box-shadow: inset 0px 0px 0px, 0 0 15px rgb(87, 1, 87);
+}
+
+@media screen and (min-width: 992px){
+    header {
+        justify-content: space-between;
+    }
+    #container {
+        margin: 75px 20% 20px;
+    }
+    #content {
+        text-align: left;
+    }
+}
+
+@media screen and (min-width: 768px){
+    header {
+        justify-content: space-between;
+    }
+    
+    #container {
+        margin: 75px 20% 20px;
+    }
+    #content {
+        text-align: left;
+    }
+}
+
+
