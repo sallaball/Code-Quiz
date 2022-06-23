@@ -62,7 +62,7 @@ button:hover {
     margin: 15px auto;
 }
 
-.header-intro button:hover {
+.start-button:hover {
     font-size: 23px;
 }
 
@@ -93,5 +93,6 @@ li {
 }
 
 .score-screen ol {
-    overflow: scroll;
+    overflow-y: scroll;
+    max-height: 200px;
 }
