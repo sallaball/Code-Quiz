@@ -69,5 +69,76 @@ function questionLoop() {
     nextQuestion();
 }
 
+//timer
+
+function runTimer () {
+    var clock = setInterval(function() {
+        timeLeft--;
+        timer.textContent = `time: ${timeLeft} seconds`;
+        if(timeLeft === 0) {
+            clearInterval(clock);
+            if(title.textContent !== "All Done.") {
+                endOfQuiz();
+            }
+        }
+    }, 1000)
+}
+
+function nextQuestion(event) {
+    writeAnswer(event);
+    if(currentQues < questionList.length) {
+    changeQuestion();
+} else {
+    endOfQuiz();
+}
+}
+
+function writeAnswer(event) {
+    if(event !== undefined) {
+        if(event.currentTarget.textContent === questionList[currentQues - 1].answer) {
+            isCorrect = true;
+            answer.textContent = "Correct";
+            answer.setAttribute("style", "color: green");
+            score += 10;
+        } else {
+            isCorrect = false;
+            answer.textContent = "Incorrect";
+            answer.setAttribute("style", "color: red");
+            if(timeLeft > 10) {
+                timeLeft -= 10;
+            } else {
+                timeLeft = 1;
+            }
+            timer.setAttribute("style", "color: red");
+            setTimeout(function () {
+                timer.setAttribute("style", "color: black");
+            },1000);
+        }
+        clearAnswer();
+    }
+}
+
+function clearAnswer() {
+    if(isClearingAnswer) {
+        isClearingAnswer = false;
+        clearTimeout(clearingAnswerCode);
+        clearAnswer();
+    } else {
+        isClearingAnswer = true;
+        clearingAnswerCode = setTimeout(function() {
+            answer.textContent = "";
+            isClearingAnswer = false;
+        }, 3000);
+    }
+}
+
+function changeQuestion() {
+    title.textContent = questionList[currentQues].question;
+    for(let i = 0; i < questionList[currentQues].options.length; i++) {
+        optionList[i].textContent = questionList[currentQues].options[i];        
+        optionList[i].addEventListener("click", nextQuestion);
+    }
+    currentQues++;
+}
 
 
