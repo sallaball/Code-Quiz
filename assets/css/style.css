@@ -27,13 +27,13 @@ body {
     font-size: 20px;
 }
 
-.score-timer button {
+.scores {
     background-color: lightgray;
     color: blueviolet;
     font-size: 18;
 }
 
-button:hover {
+.scores:hover {
     font-size: 20px;
 }
 
@@ -95,4 +95,18 @@ li {
 .score-screen ol {
     overflow-y: scroll;
     max-height: 200px;
+}
+
+.score-screen button {
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: blueviolet;
+    margin: 5px 30px;
+    color: white;
+}
+.score-screen button:hover {
+    font-size: 20px;
+    background-color: white;
+    color: black;
+
 }
