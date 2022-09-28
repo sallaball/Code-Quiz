@@ -328,10 +328,11 @@
 // }
 
 // init()
-
-var startButton = document.getElementById('start');
-var nextButton = document.getElementById('next');
-var questionContainerElement = document.getElementById('question-container');
+let leaderboard = [];
+let timer = document.getElementById("timer");
+const startButton = document.getElementById('start-btn');
+const nextButton = document.getElementById('next-btn');
+const questionContainerElement = document.getElementById('question-container');
 const questionElement = document.getElementById('question');
 const answerButtonsElement = document.getElementById('answer-buttons')
 
@@ -353,15 +354,15 @@ function startGame() {
 }
 
 function setNextQuestion() {
-    resetState
+    resetState()
     showQuestion(shuffledQuestions[currentQuestionIndex]);
 }
 
 function showQuestion(question) {
-    questionElement.innerText = question.question
+    questionElement.innerText = question.question;
     question.answers.forEach(answer => {
         const button = document.createElement('button');
-        button.innerText - answer.text
+        button.innerText = answer.text
         button.classList.add('btn')
         if (answer.correct) {
             button.dataset.correct = answer.correct
@@ -369,20 +370,21 @@ function showQuestion(question) {
         button.addEventListener('click', selectAnswer)
         answerButtonsElement.appendChild(button)
     })
+}
 
-    function resetState() {
+function resetState() {
         clearStatusClass(document.body)
         nextButton.classList.add('hide')
-        while(answerButtonsElement.firstChild) {
+        while (answerButtonsElement.firstChild) {
             answerButtonsElement.removeChild
             (answerButtonsElement.firstChild)
         }
     }
-}
 
-function selectAnswer() {
-    const selectButton = e.target
-    const correct = selectButton.dataset.correct
+
+function selectAnswer(e) {
+    const selectedButton = e.target
+    const correct = selectedButton.dataset.correct
     setStatusClass(document.body, correct)
     Array.from(answerButtonsElement.children).forEach(button => {
         setStatusClass(button, button.dataset.correct)
@@ -402,6 +404,11 @@ function setStatusClass(element, correct) {
         } else {
             element.classList.add('wrong')
         }
+}
+
+function clearStatusClass(element) {
+    element.classList.remove('correct')
+    element.classList.remove('wrong')
 }
 
 const questions =[
@@ -445,11 +452,44 @@ const questions =[
             },
             {
               question: "What data types can a function return?",
-              amswers: [
+              answers: [
                 { text: "1. string", correct: false },
                 { text: "2. number", correct: false },
                 { text: "3. boolean", correct: false },
                 { text: "4. all of the above", correct: true }
             ]
-             },
+             }
 ]
+
+function saveScore(id) {
+        if(localStorage.getItem("leaderboard") !== null) {
+            leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+        }
+        leaderboard.push(`${score} ${id.value}`);
+        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+        showScores();    
+    }
+
+function writeScores() {
+    content.textContent = "";
+    content.setAttribute("style", "white-space: pre-wrap; font-size: 150%");
+    if(localStorage.getItem("leaderboard") !== null) {
+        leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+    }
+    leaderboard.sort();
+    leaderboard.reverse();
+    let limit = 11;
+    if(limit > leaderboard.length) {
+        limit = leaderboard.length;
+    }
+    for(let i = 0; i < limit; i++) {
+        content.textContent += leaderboard[i] + '\n';
+    }
+}
+
+
+function clearScores() {
+    localStorage.clear();
+    content.textContent = "";
+    leaderboard = [];
+}
