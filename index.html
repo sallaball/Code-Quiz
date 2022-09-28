@@ -5,19 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <script src="./assets/js/script.js"></script>
     <title>Code Quiz</title>
 </head>
-<body>
-    <div class="header">
-        <a id="scores" class="scores" >View high scores</a>
+    <header class="header">
+        <div id="scores" class="scores" >View high scores</div>
         <section id="timer">Time: 0 seconds</section>
-    </div>
-    <main id="container">
+    </header>
+    <body id="container">
         <h1 id="title">Coding Quiz Challenge</h1>
-        <section id="content">Answer questions within the timelimit and remember that incorrect answers will deduct 10 seconds from time left.</section>
-        <button id="start">Start Quiz</button>
-    </main>
-    <footer id="answer"></footer>    
-    <script src="./assets/js/script.js"></script>
+        <p id="content">Answer questions within the timelimit and remember that incorrect answers will deduct 10 seconds from time left.</p>
+
+    <div class="container">
+        <div id="question-container" class="hide">
+            <div id="question">Question</div>
+            <div id="answer-bittons" class="btn-grid">
+                <button class="btn">Answer 1</button>
+                <button class="btn">Answer 2</button>
+                <button class="btn">Answer 3</button>
+                <button class="btn">Answer 4</button>
+            </div>
+        </div>
+        <div class="controls">
+            <button id="start" class="start btn">Start</button>
+            <button id="next" class="next btn hide">Next</button>
+        </div>
+    </div>
+  
 </body>
 </html>
