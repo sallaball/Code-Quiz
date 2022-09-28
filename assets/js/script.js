@@ -1,11 +1,13 @@
 
-let scores = document.querySelector("#scores");
-let timer = document.querySelector("#timer");
-let container = document.querySelector("#container");
-let title = document.querySelector("#title");
-let content = document.querySelector("#content");
-let start = document.querySelector("#start");
-let answer = document.querySelector("#answer");
+let scores = document.getElementById("scores");
+let timer = document.getElementById("timer");
+let container = document.getElementById("container");
+let title = document.getElementById("title");
+let content = document.getElementById("content");
+let start = document.getElementById("start");
+let answer = document.getElementById("answer");
+var time_start = false;
+var time = 100;
 
 
 class Question {
@@ -16,28 +18,53 @@ class Question {
     }
 }
 
-let questionList = [];
+let questions = [
 
+{
+question: "Resolving errors in a program is known as:",
+options: ["1. Debugging", "2. Error Checking", "3. Refixing", "4. Problem solving"],
+correctAnswer: 1
+},
 
-const options1 = ["1. Debugging", "2. Error Checking", "3. Refixing", "4. Problem solving"];
-const question1 = new Question("Resolving errors in a program is known as:", options1, "1. Debugging");
-questionList.push(question1);
+{
+    question: "What is the only thing that computers understand?",
+    options: ["1. Low Level Languages", "2. High Level Languages", "3. Machine Code", "4. Algorithms"],
+    correctAnswer: 3
+    },
 
-const options2 = ["1. Low Level Languages", "2. High Level Languages", "3. Machine Code", "4. Algorithms"];
-const question2 = new Question("What is the only thing that computers understand?", options2, "3. Machine Code");
-questionList.push(question2);
+{
+ question: "Before a computer can understand a program, it must be...",
+ options: ["1. Translated into a high level language", "2. converted into binary", "3. Translated into a low level language", "4. Translated into its machine code"],
+ correctAnswer: 4
+ },
 
-const options3 = ["1. Translated into a high level language", "2. converted into binary", "3. Translated into a low level language", "4. Translated into its machine code"];
-const question3 = new Question("Before a computer can understand a program, it must be...", options3, "4. Translated into its machine code");
-questionList.push(question3);
+        {
+            question: "Which of the following is not a high level programming language?",
+            options: ["1. Assembly", "2. C++", "3. JavaScript", "4. Python"],
+            correctAnswer: 1
+            },
 
-const options4 = ["1. Assembly", "2. C++", "3. JavaScript", "4. Python"];
-const question4 = new Question("Which of the following is not a high level programming language?", options4, "1. Assembly");
-questionList.push(question4);
+            {
+                question: "What data types can a function return?",
+                options: ["1. string", "2. number", "3. boolean", "4. all of the above"],
+                correctAnswer: 4
+                },
 
-const options5 = ["1. string", "2. number", "3. boolean", "4. all of the above"];
-const question5 = new Question("What data types can a function return?", options5, "4. all of the above");
-questionList.push(question5);
+];
+
+//countdown timer
+
+var countdownTimerInterval = setInterval(countdownTimer, 1000);
+
+function countdownTimer () {
+    if (time_start)
+    time--;
+    if(time<= 0) {
+    end_quiz();
+    time = 0;    
+    }
+    document.getElementById("timer").innerHTML = time;
+}
 
 
 let optionList = [];
@@ -59,11 +86,11 @@ function init() {
 
 
 function questionLoop () {
-    runTimer();
+    countdownTimer();
     isQuizOngoing = true;
     start.setAttribute("style", "display: none");
     content.setAttribute("style", "display: none");
-    let numOfOptions = questionList[0].options.length;
+    let numOfOptions = questions.options;
     for(let i = 0; i < numOfOptions; i++) {
         let option = document.createElement("button");
         container.appendChild(option);
@@ -74,23 +101,12 @@ function questionLoop () {
 }
 
 
-function runTimer () {
-    let clock = setInterval(function() {
-        timeLeft--;
-        timer.textContent = `Time: ${timeLeft} seconds`;
-        if(timeLeft === 0) {
-            clearInterval(clock);
-            if(title.textContent !== "All Done.") {
-                endOfQuiz();
-            }
-        }
-    }, 1000)
-}
+
 
 
 function nextQuestion(event) {
     writeAnswer(event);
-    if(currentQues < questionList.length) {
+    if(currentQues < questions.length) {
         changeQuestion();
     } else {
         endOfQuiz();
@@ -101,7 +117,7 @@ function nextQuestion(event) {
 
 function writeAnswer(event) {
     if(event !== undefined) {
-        if(event.currentTarget.textContent === questionList[currentQues - 1].answer) {
+        if(event.currentTarget.textContent === questions[currentQues - 1].answer) {
             isCorrect = true;
             answer.textContent = "Correct";
             answer.setAttribute("style", "color: green");
@@ -141,9 +157,9 @@ function clearAnswer() {
 
 
 function changeQuestion() {
-    title.textContent = questionList[currentQues].question;
-    for(let i = 0; i < questionList[currentQues].options.length; i++) {
-        optionList[i].textContent = questionList[currentQues].options[i];        
+    title.textContent = questions[currentQues].question;
+    for(let i = 0; i < questions[currentQues].options; i++) {
+        optionList[i].textContent = questions[currentQues].options[i];        
         optionList[i].addEventListener("click", nextQuestion);
     }
     currentQues++;
