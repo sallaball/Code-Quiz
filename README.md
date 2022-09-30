@@ -15,4 +15,4 @@ https://sallaball.github.io/Code-Quiz/
 
 ## Contribution
 Made by Salla Ball
-(with the help of Abdalla Jama and William Horn)
+
